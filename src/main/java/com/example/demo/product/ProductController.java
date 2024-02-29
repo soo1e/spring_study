@@ -2,9 +2,7 @@ package com.example.demo.product;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @ResponseBody
@@ -17,14 +15,17 @@ public class ProductController {
     private ProductService productService;
 
     // 상품 조회
-    @RequestMapping(value = "", method = RequestMethod.GET)
-    public String findProduct() {
-        return productService.findProduct();
+    @RequestMapping(value = "/products/{id}", method = RequestMethod.GET)
+    public Product findProduct(@PathVariable("id") int id) {
+        return productService.findProduct(id);
     }
 
     // 상품 등록
-    @RequestMapping(value = "", method = RequestMethod.POST)
-    public void saveProduct() {
-        productService.saveProduct();
+    @RequestMapping(value = "/products", method = RequestMethod.POST)
+    public void saveProduct(@RequestBody Product product) {
+        // @RequestParam : localhost:8080/products?name=____ -> productName
+        productService.saveProduct(product);
     }
+
+
 }
